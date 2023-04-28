@@ -21,7 +21,7 @@ Param(
     [Switch]$RemoveWSLEnvironmentOnCompletion,
 
     [Parameter(Mandatory=$false)]
-    [string]$vagrantDownloadUrl = "https://releases.hashicorp.com/vagrant/2.3.4/vagrant_2.3.4_windows_amd64.msi" 
+    [string]$VagrantDownloadUrl = "https://releases.hashicorp.com/vagrant/2.3.4/vagrant_2.3.4_windows_amd64.msi" 
 )
 
 Write-Host "Checking for WSL Installation"
@@ -44,8 +44,8 @@ else {
     Write-Host "Vagrant is not installed. Installing"
     $vagrantDownloadPath = "$env:TEMP\vagrant.msi"
 
-    Write-Host "Downloading Vagrant from [$vagrantDownloadUrl] to [$vagrantDownloadPath]"
-    Invoke-WebRequest -Uri $vagrantDownloadUrl -OutFile $vagrantDownloadPath
+    Write-Host "Downloading Vagrant from [$VagrantDownloadUrl] to [$vagrantDownloadPath]"
+    Invoke-WebRequest -Uri $VagrantDownloadUrl -OutFile $vagrantDownloadPath
 
     Write-Host "Installing Vagrant"
     Start-Process -FilePath $vagrantDownloadPath -ArgumentList "/passive /norestart" -Wait
