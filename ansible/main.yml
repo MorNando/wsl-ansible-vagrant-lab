@@ -1,0 +1,58 @@
+---
+- hosts: all
+  gather_facts: yes
+  tasks:
+  - name: Install chocolatey
+    win_chocolatey:
+      name:
+        - chocolatey
+        - chocolatey-core.extension
+      state: present
+    become: yes
+    become_user: "{{ username }}"
+    vars:
+      ansible_become_pass: "{{ password }}"
+
+- hosts: database
+  gather_facts: no
+  tasks:
+  - name: Install git
+    win_chocolatey:
+      name: git
+      state: absent
+    become: yes
+    become_user: "{{ username }}"
+    vars:
+      ansible_become_pass: "{{ password }}"
+
+  - name: start print spooler service and set to disabled
+    win_service:
+      name: Spooler
+      start_mode: auto
+      state: started
+
+- hosts: web
+  gather_facts: no
+  tasks:
+  - name: Install IIS Web-Server
+    ansible.windows.win_feature:
+      name: Web-Server
+    register: iis_install
+
+  - name: Reboot when Web-Server feature requires it
+    ansible.windows.win_reboot:
+    when: iis_install.reboot_required
+
+  - name: Creating temp directory
+    ansible.windows.win_file:
+      path: C:\Temp
+      state: directory
+
+  - name: Create random.txt
+    ansible.windows.win_file:
+      path: C:\Temp\random.txt
+      state: touch
+    become: yes
+    become_user: "{{ username }}"
+    vars:
+      ansible_become_pass: "{{ password }}"
