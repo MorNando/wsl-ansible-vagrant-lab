@@ -8,6 +8,8 @@ This is an lab that:
 
 It is a great accelerator for testing and learning Ansible.
 
+![](.images/runme_in_action.gif)
+
 ## Prerequisites
 It requires VirtualBox (tested with version 7) already installed on your Windows machine.
 
@@ -20,7 +22,7 @@ It has also only been tested on Windows 11 but may work with Windows 10.
 
 Examples of how `runme.ps1` can be used below:
 
-Run with all the defaults. This will use ubuntu WSL2 out of the box and keep your VMs running afterwards
+Run with all the defaults. This will use ubuntu WSL2 out of the box and keep your Vagrant built VMs running afterwards
 ```powershell
 runme.ps1
 ```
